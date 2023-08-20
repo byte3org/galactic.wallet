@@ -8,7 +8,7 @@ import (
 
 type Config struct {
 	Environment string `json:"env"`
-	Port        int    `json:"port"`
+	Port        int32  `json:"port"`
 	DbString    string `json:"db_string"`
 	DbName      string `json:"db_name"`
 	AuthService string `json:"auth_service"`
@@ -17,7 +17,7 @@ type Config struct {
 
 var config *Config
 
-func intitialize() {
+func init() {
 	file, err := os.Open("config/config.json")
 	if err != nil {
 		log.Fatal("[x] error : couldnt read config file", err.Error())

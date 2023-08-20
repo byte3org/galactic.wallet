@@ -5,7 +5,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/byte3/galactic.payment/config"
+	"github.com/byte3/galactic.wallet/api/v1/router"
+	"github.com/byte3/galactic.wallet/config"
+	"github.com/byte3/galactic.wallet/internal/database"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 )
