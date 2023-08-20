@@ -4,7 +4,6 @@ import "github.com/go-chi/chi"
 
 func SetupRoutes() *chi.Mux {
 	r := chi.NewRouter()
-	r.Mount("/payment", Payment{}.Routes())
 	r.Mount("/wallet", Wallet{}.Routes())
 	return r
 }

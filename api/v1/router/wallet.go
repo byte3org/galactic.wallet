@@ -11,7 +11,8 @@ type Wallet struct{}
 func (w Wallet) Routes() chi.Router {
 	r := chi.NewRouter()
 
-	r.Post("/create", handlers.WalletHandler{}.CreateWallet)
+	r.Get("/", handlers.WalletHandler{}.GetAllWallets)
+	r.Post("/", handlers.WalletHandler{}.CreateWallet)
 	r.Group(func(r chi.Router) {
 		r.Use(middlewares.ExtractUserId)
 		r.Get("/user/balance", handlers.WalletHandler{}.GetWalletBalance)

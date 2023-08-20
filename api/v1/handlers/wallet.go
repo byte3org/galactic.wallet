@@ -13,6 +13,9 @@ import (
 
 type WalletHandler struct{}
 
+func (wh WalletHandler) GetAllWallets(w http.ResponseWriter, r *http.Request) {
+}
+
 func (wh WalletHandler) CreateWallet(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
