@@ -102,6 +102,20 @@ func (wh WalletHandler) WithdrawFromWallet(w http.ResponseWriter, r *http.Reques
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
+
+		msg := map[string]interface{}{
+			"id":  payment.ID,
+			"msg": "payment is successful",
+		}
+
+		j, err := json.Marshal(msg)
+		if err != nil {
+			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		w.WriteHeader(http.StatusAccepted)
+		w.Write([]byte(j))
 	} else {
 		payment := models.PaymentModel{
 			Amount:    amount,
@@ -118,6 +132,4 @@ func (wh WalletHandler) WithdrawFromWallet(w http.ResponseWriter, r *http.Reques
 		http.Error(w, "Transaction failed. Not Enough Cash", 402)
 		return
 	}
-	w.WriteHeader(http.StatusAccepted)
-	w.Write([]byte("Payment Successful"))
 }
