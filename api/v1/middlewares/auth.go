@@ -4,6 +4,7 @@ import (
 	"context"
 	"log"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/byte3/galactic.wallet/config"
@@ -57,6 +58,12 @@ func SignatureVerify(next http.Handler) http.Handler {
 
 		log.Print(decryptedBody)
 
+		decryptedStr := string(decryptedBody[:])
+		decryptedAmount, err := strconv.Atoi(decryptedStr)
+		if err != nil {
+			http.Error(w, "Failed to decrypt token", http.StatusInternalServerError)
+			return
+		}
 		// compare amount and decrypted body amount
 		if jsonReq["amount"].(int) != decryptedAmount {
 			http.Error(w, "A modification to the request is detected", http.StatusUnauthorized)
@@ -98,7 +105,7 @@ func ExtractUserId(next http.Handler) http.Handler {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		userId := jsonRes["userId"].(uuid.UUID)
+		userId := jsonRes["sub"].(uuid.UUID)
 
 		ctx := context.WithValue(r.Context(), "user_id", userId)
 		next.ServeHTTP(w, r.WithContext(ctx))
