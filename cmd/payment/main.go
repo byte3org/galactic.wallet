@@ -50,4 +50,6 @@ func main() {
 	database.Initialize(config)
 
 	r := initializePaymentServer(config)
+
+	http.ListenAndServe(":"+config.Port, r)
 }

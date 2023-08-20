@@ -8,7 +8,7 @@ import (
 
 type Config struct {
 	Environment string `json:"env"`
-	Port        int32  `json:"port"`
+	Port        string `json:"port"`
 	DbString    string `json:"db_string"`
 	DbName      string `json:"db_name"`
 	AuthService string `json:"auth_service"`

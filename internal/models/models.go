@@ -4,7 +4,6 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"go.mongodb.org/mongo-driver/internal/uuid"
 	"gorm.io/gorm"
 )
 
