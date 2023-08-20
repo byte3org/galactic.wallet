@@ -1,7 +1,7 @@
 package router
 
 import (
-	"github.com/byte3/galactic.payment/api/v1/handlers"
+	"github.com/byte3/galactic.wallet/api/v1/handlers"
 	"github.com/go-chi/chi"
 )
 
