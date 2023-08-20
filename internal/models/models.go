@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
+	"go.mongodb.org/mongo-driver/internal/uuid"
 	"gorm.io/gorm"
 )
 
@@ -15,7 +16,15 @@ type BaseModel struct {
 }
 
 type PaymentModel struct {
+	BaseModel
+	Amount    int       `json:"amount"`
+	IsSuccess bool      `json:"is_success"`
+	WalletID  uuid.UUID `json:wallet`
+	Wallet    WalletModel
 }
 
 type WalletModel struct {
+	BaseModel
+	User    uuid.UUID `json:"id" gorm:"uuid"`
+	Balance int       `json:"balance"`
 }
