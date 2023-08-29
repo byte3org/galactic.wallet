@@ -11,18 +11,20 @@ type Wallet struct{}
 func (w Wallet) Routes() chi.Router {
 	r := chi.NewRouter()
 
-	r.Get("/", handlers.WalletHandler{}.GetAllWallets)
-	r.Post("/", handlers.WalletHandler{}.CreateWallet)
-	r.Group(func(r chi.Router) {
-		r.Use(middlewares.ExtractUserId)
-		r.Get("/user/balance", handlers.WalletHandler{}.GetWalletBalance)
-		r.Get("/user/transactions", handlers.WalletHandler{}.GetWalletTransactions)
+    r.Route("/", func(publicRoutes chi.Router) {
+        publicRoutes.Get("/", handlers.WalletHandler{}.GetAllWallets)
+        publicRoutes.Post("/", handlers.WalletHandler{}.CreateWallet)
+    })
+	r.Route("user", func(userRoutes chi.Router) {
+		userRoutes.Use(middlewares.ExtractUserId)
+		userRoutes.Get("/user/balance", handlers.WalletHandler{}.GetWalletBalance)
+		userRoutes.Get("/user/transactions", handlers.WalletHandler{}.GetWalletTransactions)
 	})
-	r.Group(func(r chi.Router) {
-		r.Use(middlewares.ExtractUserId)
-		r.Use(middlewares.SignatureVerify)
-		r.Post("/user/deposit", handlers.WalletHandler{}.DepositToWallet)
-		r.Post("/user/withdraw", handlers.WalletHandler{}.WithdrawFromWallet)
+	r.Group(func(protectedRoutes chi.Router) {
+		protectedRoutes.Use(middlewares.ExtractUserId)
+		protectedRoutes.Use(middlewares.SignatureVerify)
+		protectedRoutes.Post("/user/deposit", handlers.WalletHandler{}.DepositToWallet)
+		protectedRoutes.Post("/user/withdraw", handlers.WalletHandler{}.WithdrawFromWallet)
 	})
 	return r
 }
