@@ -11,20 +11,20 @@ type Wallet struct{}
 func (w Wallet) Routes() chi.Router {
 	r := chi.NewRouter()
 
-    r.Route("/", func(publicRoutes chi.Router) {
-        publicRoutes.Get("/", handlers.WalletHandler{}.GetAllWallets)
-        publicRoutes.Post("/", handlers.WalletHandler{}.CreateWallet)
-    })
+	r.Route("/", func(publicRoutes chi.Router) {
+		publicRoutes.Get("/", handlers.WalletHandler{}.GetAllWallets)
+		publicRoutes.Post("/", handlers.WalletHandler{}.CreateWallet)
+	})
 	r.Route("user", func(userRoutes chi.Router) {
 		userRoutes.Use(middlewares.ExtractUserId)
-		userRoutes.Get("/user/balance", handlers.WalletHandler{}.GetWalletBalance)
-		userRoutes.Get("/user/transactions", handlers.WalletHandler{}.GetWalletTransactions)
+		userRoutes.Get("/balance", handlers.WalletHandler{}.GetWalletBalance)
+		userRoutes.Get("/transactions", handlers.WalletHandler{}.GetWalletTransactions)
 	})
-	r.Group(func(protectedRoutes chi.Router) {
+	r.Route("transaction", func(protectedRoutes chi.Router) {
 		protectedRoutes.Use(middlewares.ExtractUserId)
 		protectedRoutes.Use(middlewares.SignatureVerify)
-		protectedRoutes.Post("/user/deposit", handlers.WalletHandler{}.DepositToWallet)
-		protectedRoutes.Post("/user/withdraw", handlers.WalletHandler{}.WithdrawFromWallet)
+		protectedRoutes.Post("/deposit", handlers.WalletHandler{}.DepositToWallet)
+		protectedRoutes.Post("/withdraw", handlers.WalletHandler{}.WithdrawFromWallet)
 	})
 	return r
 }

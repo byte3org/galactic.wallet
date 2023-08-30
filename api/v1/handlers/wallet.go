@@ -1,6 +1,6 @@
 package handlers
 
-import (
+mport (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
@@ -14,6 +14,7 @@ import (
 type WalletHandler struct{}
 
 func (wh WalletHandler) GetAllWallets(w http.ResponseWriter, r *http.Request) {
+	return
 }
 
 func (wh WalletHandler) CreateWallet(w http.ResponseWriter, r *http.Request) {
